@@ -1,14 +1,11 @@
-import "./App.css";
-
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
-import SightingEntry from "./Components/SightingEntry";
 
-// import Sightings from "./Components/Sightings";
+import SightingEntry from "./SightingEntry";
 
-export default function App() {
+export default function Sightings() {
   const [allSightings, setAllSightings] = useState([]);
   const [sightingId, setSightingId] = useState();
   const [toggleEntryView, setToggleEntryView] = useState(false);
@@ -30,35 +27,30 @@ export default function App() {
     setToggleEntryView(!toggleEntryView);
   };
 
-  const sightingsList = allSightings.map((sighting, index) => (
-    <div key={sighting.id} onClick={() => handleSelectSighting(sighting.id)}>
-      <Link to={`/${sighting.id}`}>
-        <h5>
-          Sighting #{sighting.id}:
-          {moment(sighting.date).utc().format("DD-MMM-YYYY")}
-        </h5>
-      </Link>
-
-      <h6>Location: {sighting.location}</h6>
-      <hr />
-    </div>
-  ));
-
   return (
-    <div className="App">
-      <h1>BIGFOOT SQL</h1>
-      <Link to={`/new`}>
-        <button>Add Sighting</button>
-      </Link>
+    <div>
       {!toggleEntryView ? (
         allSightings && allSightings.length ? (
-          sightingsList
+          allSightings.map((sighting, index) => (
+            <div
+              key={sighting.id}
+              onClick={() => handleSelectSighting(sighting.id)}
+            >
+              <Link to={`/${sighting.id}`}>
+                <h5>
+                  Sighting #{sighting.id}:
+                  {moment(sighting.date).utc().format("DD-MMM-YYYY")}
+                </h5>
+              </Link>
+
+              <h6>Location: {sighting.location}</h6>
+              <hr />
+            </div>
+          ))
         ) : (
           <p>Loading Data</p>
         )
       ) : null}
-
-      <Outlet />
     </div>
   );
 }
