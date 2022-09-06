@@ -27,11 +27,7 @@ export default function AddSighting() {
   };
 
   return (
-    <div className="App">
-      <Link to="/">
-        <button>Back</button>
-      </Link>
-
+    <div>
       <form
         onSubmit={handleAddSighting}
         style={{

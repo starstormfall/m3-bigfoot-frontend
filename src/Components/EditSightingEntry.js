@@ -38,13 +38,6 @@ export default function EditSightingEntry(props) {
       >
         Back to Sighting
       </button>
-      <button
-        onClick={() => {
-          navigate(`/`);
-        }}
-      >
-        Back to Home
-      </button>
       <br />
       EDIT MODE
       {sightingEvent}

@@ -31,13 +31,6 @@ export default function SightingEntry(props) {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Back
-      </button>
       <br />
       <button
         onClick={() => {

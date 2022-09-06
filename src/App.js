@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { React, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet, Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import SightingEntry from "./Components/SightingEntry";
@@ -47,17 +47,14 @@ export default function App() {
   return (
     <div className="App">
       <h1>BIGFOOT SQL</h1>
-      <Link to={`/new`}>
-        <button>Add Sighting</button>
-      </Link>
-      {!toggleEntryView ? (
-        allSightings && allSightings.length ? (
-          sightingsList
-        ) : (
-          <p>Loading Data</p>
-        )
-      ) : null}
-
+      <nav style={{ display: "flex", flexDirection: "row" }}>
+        <NavLink to={`/all`}>
+          <button>All Sightings</button>
+        </NavLink>
+        <NavLink to={`/new`}>
+          <button>Add Sighting</button>
+        </NavLink>
+      </nav>
       <Outlet />
     </div>
   );
