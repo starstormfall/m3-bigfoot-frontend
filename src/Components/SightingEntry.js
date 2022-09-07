@@ -13,12 +13,16 @@ export default function SightingEntry(props) {
   const [comment, setComment] = useState("");
   const [editCommentOn, setEditCommentOn] = useState(false);
   const [commentId, setCommentId] = useState();
+  const [likeCount, setLikeCount] = useState();
 
   const getSighting = async () => {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/sightings/${params.sightingId}`
     );
-    setSighting(response.data);
+    setSighting(response.data.sighting);
+    setLikeCount(response.data.likes);
+    console.log(response);
+    console.log(response.data);
   };
 
   const getComments = async () => {
@@ -94,6 +98,14 @@ export default function SightingEntry(props) {
     getComments();
   };
 
+  const handleLike = async (sightingId) => {
+    let response = await axios.post(
+      `${process.env.REACT_APP_API_SERVER}/sightings/${params.sightingId}`
+    );
+
+    setLikeCount(response.data.likes);
+  };
+
   return (
     <div>
       <br />
@@ -105,6 +117,7 @@ export default function SightingEntry(props) {
         Edit Sighting
       </button>
       <ul>{sightingEvent}</ul>
+      <button onClick={() => handleLike()}>Like:{likeCount}</button>
 
       <hr />
       <h4>Add a Comment</h4>

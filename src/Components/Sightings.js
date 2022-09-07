@@ -3,12 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
-import SightingEntry from "./SightingEntry";
-
 export default function Sightings() {
   const [allSightings, setAllSightings] = useState([]);
-  // const [sightingId, setSightingId] = useState();
-  // const [toggleEntryView, setToggleEntryView] = useState(false);
 
   const getSightingsData = async () => {
     let allSightingsAPICall = await axios.get(
@@ -21,11 +17,6 @@ export default function Sightings() {
   useEffect(() => {
     getSightingsData();
   }, []);
-
-  // const handleSelectSighting = (sightingId) => {
-  //   setSightingId(sightingId);
-  //   setToggleEntryView(!toggleEntryView);
-  // };
 
   return (
     <div>
@@ -40,6 +31,7 @@ export default function Sightings() {
             </Link>
 
             <h6>Location: {sighting.locationdescription}</h6>
+
             <hr />
           </div>
         ))
