@@ -17,7 +17,6 @@ export default function App() {
     let allSightingsAPICall = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/sightings`
     );
-    console.log(allSightingsAPICall);
     setAllSightings(allSightingsAPICall.data);
   };
 

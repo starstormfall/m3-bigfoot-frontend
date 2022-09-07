@@ -19,6 +19,7 @@ root.render(
         <Route path="all" element={<Sightings />} />
         <Route path=":sightingId" element={<SightingEntry />} />
         <Route path=":sightingId/edit" element={<EditSightingEntry />} />
+        <Route path=":sightingId/comments" element={<EditSightingEntry />} />
         <Route path="new" element={<AddSighting />} />
       </Route>
     </Routes>

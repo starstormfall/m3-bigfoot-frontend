@@ -43,7 +43,7 @@ export default function Sightings() {
                 </h5>
               </Link>
 
-              <h6>Location: {sighting.location}</h6>
+              <h6>Location: {sighting.locationdescription}</h6>
               <hr />
             </div>
           ))
