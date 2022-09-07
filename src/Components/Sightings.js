@@ -7,8 +7,8 @@ import SightingEntry from "./SightingEntry";
 
 export default function Sightings() {
   const [allSightings, setAllSightings] = useState([]);
-  const [sightingId, setSightingId] = useState();
-  const [toggleEntryView, setToggleEntryView] = useState(false);
+  // const [sightingId, setSightingId] = useState();
+  // const [toggleEntryView, setToggleEntryView] = useState(false);
 
   const getSightingsData = async () => {
     let allSightingsAPICall = await axios.get(
@@ -22,35 +22,30 @@ export default function Sightings() {
     getSightingsData();
   }, []);
 
-  const handleSelectSighting = (sightingId) => {
-    setSightingId(sightingId);
-    setToggleEntryView(!toggleEntryView);
-  };
+  // const handleSelectSighting = (sightingId) => {
+  //   setSightingId(sightingId);
+  //   setToggleEntryView(!toggleEntryView);
+  // };
 
   return (
     <div>
-      {!toggleEntryView ? (
-        allSightings && allSightings.length ? (
-          allSightings.map((sighting, index) => (
-            <div
-              key={sighting.id}
-              onClick={() => handleSelectSighting(sighting.id)}
-            >
-              <Link to={`/${sighting.id}`}>
-                <h5>
-                  Sighting #{sighting.id}:
-                  {moment(sighting.date).utc().format("DD-MMM-YYYY")}
-                </h5>
-              </Link>
+      {allSightings && allSightings.length ? (
+        allSightings.map((sighting, index) => (
+          <div key={sighting.id}>
+            <Link to={`/${sighting.id}`}>
+              <h5>
+                Sighting #{sighting.id}:
+                {moment(sighting.date).utc().format("DD-MMM-YYYY")}
+              </h5>
+            </Link>
 
-              <h6>Location: {sighting.locationdescription}</h6>
-              <hr />
-            </div>
-          ))
-        ) : (
-          <p>Loading Data</p>
-        )
-      ) : null}
+            <h6>Location: {sighting.locationdescription}</h6>
+            <hr />
+          </div>
+        ))
+      ) : (
+        <p>Loading Data</p>
+      )}
     </div>
   );
 }

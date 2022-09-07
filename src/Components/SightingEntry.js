@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
-import AddComments from "./AddComments";
+import EditComment from "./EditComment";
 
 export default function SightingEntry(props) {
   let params = useParams();
@@ -11,6 +11,8 @@ export default function SightingEntry(props) {
   const [sighting, setSighting] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [editCommentOn, setEditCommentOn] = useState(false);
+  const [commentId, setCommentId] = useState();
 
   const getSighting = async () => {
     let response = await axios.get(
@@ -40,7 +42,19 @@ export default function SightingEntry(props) {
   );
 
   const commentsList = comments.map((comment, index) => (
-    <li key={comment.id}>{comment.content}</li>
+    <li key={comment.id}>
+      {comment.content}{" "}
+      <button
+        onClick={(e) => {
+          handleEditComment(comment.id, index, e);
+        }}
+      >
+        Edit
+      </button>
+      <button onClick={(e) => handleDeleteComment(comment.id, index, e)}>
+        Delete
+      </button>
+    </li>
   ));
 
   const handleSubmitComment = async (e) => {
@@ -59,6 +73,25 @@ export default function SightingEntry(props) {
 
     setComment("");
     setComments(updatedComments);
+  };
+
+  const handleEditComment = (commentId, index, e) => {
+    setEditCommentOn(!editCommentOn);
+    setCommentId(commentId);
+  };
+
+  const handleDeleteComment = async (commentId, index, e) => {
+    console.log(commentId);
+    let comment = {
+      id: commentId,
+    };
+    let response = await axios.delete(
+      `${process.env.REACT_APP_API_SERVER}/sightings/${params.sightingId}/comments`,
+      { data: comment }
+    );
+
+    console.log(response);
+    getComments();
   };
 
   return (
@@ -87,6 +120,14 @@ export default function SightingEntry(props) {
       <hr />
       <h3>Comments</h3>
       {comments && comments.length ? commentsList : <p>loading comments</p>}
+      {editCommentOn ? (
+        <EditComment
+          sightingId={params.sightingId}
+          toggleEditComment={handleEditComment}
+          commentId={commentId}
+          refreshComments={getComments}
+        />
+      ) : null}
     </div>
   );
 }
