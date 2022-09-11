@@ -7,10 +7,9 @@ export default function EditSightingEntry(props) {
   let params = useParams();
   let navigate = useNavigate();
   const [sighting, setSighting] = useState({});
-  const [sightingDate, setSightingDate] = useState();
-  const [sightingLocation, setSightingLocation] = useState();
-  const [sightingNotes, setSightingNotes] = useState();
-  const [form, setForm] = useState();
+  const [sightingDate, setSightingDate] = useState("");
+  const [sightingLocation, setSightingLocation] = useState("");
+  const [sightingNotes, setSightingNotes] = useState("");
 
   const getSighting = async () => {
     let response = await axios.get(
@@ -20,7 +19,7 @@ export default function EditSightingEntry(props) {
     setSightingDate(
       moment(response.data.date).utc().format("yyyy-MM-DDThh:mm")
     );
-    setSightingLocation(response.data.location);
+    setSightingLocation(response.data.locationdescription);
     setSightingNotes(response.data.notes);
     console.log(response);
   };

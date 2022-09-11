@@ -8,21 +8,25 @@ import EditComment from "./EditComment";
 export default function SightingEntry(props) {
   let params = useParams();
   let navigate = useNavigate();
-  const [sighting, setSighting] = useState({});
+  const [sighting, setSighting] = useState({
+    date: "",
+    locationdescription: "",
+    notes: "",
+  });
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [editCommentOn, setEditCommentOn] = useState(false);
   const [commentId, setCommentId] = useState();
   const [likeCount, setLikeCount] = useState();
+  const [categories, setCategories] = useState([]);
 
   const getSighting = async () => {
     let response = await axios.get(
       `${process.env.REACT_APP_API_SERVER}/sightings/${params.sightingId}`
     );
-    setSighting(response.data.sighting);
+    setSighting(response.data);
     setLikeCount(response.data.likes);
-    console.log(response);
-    console.log(response.data);
+    setCategories(response.data.categories);
   };
 
   const getComments = async () => {
@@ -44,6 +48,10 @@ export default function SightingEntry(props) {
       <p>Notes: {sighting.notes}</p>
     </>
   );
+
+  const listCategories = categories.map((category, index) => (
+    <li key={index}>{category.name}</li>
+  ));
 
   const commentsList = comments.map((comment, index) => (
     <li key={comment.id}>
@@ -102,7 +110,6 @@ export default function SightingEntry(props) {
     let response = await axios.post(
       `${process.env.REACT_APP_API_SERVER}/sightings/${params.sightingId}`
     );
-
     setLikeCount(response.data.likes);
   };
 
@@ -116,6 +123,12 @@ export default function SightingEntry(props) {
       >
         Edit Sighting
       </button>
+      <ul>
+        Categories:
+        {categories && categories.length
+          ? listCategories
+          : " no categories listed"}
+      </ul>
       <ul>{sightingEvent}</ul>
       <button onClick={() => handleLike()}>Like:{likeCount}</button>
 
